@@ -1,0 +1,35 @@
+nav {
+    text-align: center;
+}
+
+nav ul {
+    list-style-type: none;
+}
+
+nav li {
+    display: inline;
+    margin-right: 40px;
+}
+
+a {
+    color: #777;
+    text-decoration: none;
+}
+
+a:hover {
+	color: #0000FF;
+}
+
+.slides {
+  display: none;
+  width: 100%;
+}
+
+.animate-left {
+  position: relative;
+  animation: animateleft 0.8s
+}
+
+@keyframes animateleft { 
+  from { left :-500px; opacity:0 } to { left:0; opacity:1 }
+}

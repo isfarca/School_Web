@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	
+	<title>Website Contact Form</title>
+	
+<script>
+// Get element by id.
+function GetElement(id)
+{ 
+	return document.getElementById(id); 
+}
+
+// Submit message to the parser.
+function Submit()
+{
+	// Enable submit button and start the parsing.
+	GetElement("submitButton").disabled = true;
+	GetElement("status").innerHTML = "Please wait ...";
+	
+	// Get the datas from input fields.
+	var formData = new FormData();
+	formData.append("name", GetElement("name").value);
+	formData.append("email", GetElement("email").value);
+	formData.append("message", GetElement("message").value);
+	
+	// Send request to php.
+	var ajax = new XMLHttpRequest();
+	ajax.open("POST", "parser.php");
+	
+	// Get the result.
+	ajax.onreadystatechange = function() 
+	{
+		// Is request to parser correctly submitted?
+		if (ajax.readyState == 4 && ajax.status == 200) 
+		{
+			// Parser request process successfully.
+			if (ajax.responseText == "success")
+			{
+				// Update status text.
+				GetElement("contact").innerHTML = "<h2>Thanks " + GetElement("name").value + 
+				", your message has been sent.</h2>";
+			}
+			// Exception.
+			else 
+			{
+				// Exception output.
+				GetElement("status").innerHTML = ajax.responseText;
+				
+				// Disable submit button.
+				GetElement("submitButton").disabled = false;
+			}
+		}
+	}
+	
+	// Send http request.
+	ajax.send(formData);
+}
+</script>
+</head>
+
+<body>
+
+<!-- CONTACT FORM -->
+<form id="contact" onsubmit="Submit(); return false;">
+
+  <!-- NAME INPUTFIELD -->
+  <p>
+	<input id="name" placeholder="Name" required>
+  </p>
+  
+  <!-- EMAIL INPUTFIELD -->
+  <p>
+	<input id="email" placeholder="E-Mail" type="email" required>
+  </p>
+  
+  <!-- MESSAGE BOX -->
+  <textarea id="message" placeholder="Write your message here" rows="10" required>
+  </textarea>
+  
+  <!-- FOOTER -->
+  <p>
+  
+	<!-- SUBMIT BUTTON -->
+	<input id="submitButton" type="submit" value="Submit">
+	
+	<!-- STATUS TEXTBOX -->
+	<span id="status">
+	</span>
+	
+  </p>
+  
+</form>
+
+</body>
+</html>
